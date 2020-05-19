@@ -1,0 +1,183 @@
+
+.lobby {
+    display: block;
+    width:50%;
+    margin-left: 24%;
+    margin-top: 10%;
+}
+
+.titleLobby {
+    margin: 0 auto;
+    margin-top: -86px;
+    margin-left: 47%;
+    position: absolute;
+}
+
+/*this magical box was made by following a tutorial found here... http://learn.shayhowe.com/advanced-html-css/transitions-animations/*/
+.box {
+    margin-top: -20%;
+    color: black;
+    width: 10rem;
+    height: 10rem;
+    margin-left: 40%;
+    background-color: rgba(255, 180, 0, 0.5);
+    /*opacity: .2;*/
+    border-radius: 50%;
+    transition-property: background, border-radius;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+    transition: width 2s, height 2s, background-color 2s, transform 2s;
+    /*cool, but not for this*/
+    /*transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);*/
+}
+
+/*.box{
+  background-image: url("./moon.jpg");
+  background-repeat:no-repeat;
+  background-size: 15rem 15rem;
+  background-position: center center;
+  opacity: 1;
+}*/
+.layer {
+    width: 11.5rem;
+    height: 11.5rem;
+    margin-top: -12px;
+    margin-left: -12px;
+    opacity: .5;
+    border-radius: 50%;
+    transition-property: background, border-radius;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+    transition: width 2s, height 2s, background-color 2s, transform 2s;
+}
+
+.layer:hover {
+    width: 13.8rem;
+    height: 13.8rem;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    margin-left: -14px;
+    box-shadow: none;
+}
+
+.box:hover {
+    background: maroon;
+    /*opacity: .2;*/
+    border-radius: 50%;
+    width: 12rem;
+    height: 12rem;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    color: white;
+    box-shadow: none;
+}
+
+/*.clickStart{
+  margin-top: 70px;
+  position: relative;
+}*/
+/*.lobby h1{
+  margin-left: -35%;
+}*/
+.whenReady h3 {
+    width: 100%;
+    margin: 0 auto;
+    margin-left: -33%;
+    margin-bottom: 10px;
+    font-size: 2rem;
+    margin-top: -10px;
+}
+
+.whenReady p {
+    width: 100%;
+    margin: 0 auto;
+    margin-left: -46%;
+    margin-bottom: 0px;
+    font-size: 1.5rem;
+}
+
+.whenReady h1 {
+    width: 100%;
+    margin: 0 auto;
+    margin-left: -18%;
+    margin-top: 23px;
+}
+
+#lobbyNames li {
+    font-size: 2rem;
+    margin-top: -6%;
+    list-style: none;
+    opacity: .8;
+    display: inline-block;
+    margin-right: -80px;
+    border-radius: 5px;
+    padding: 10px;
+    background-image: url("./images/woodwood.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+    width: 194px;
+    text-align: center;
+    transform: rotate(-40deg);
+}
+
+#lobbyNames li:nth-child(1) {
+    -webkit-animation: bob 5200ms ease-out infinite;
+}
+
+#lobbyNames li:nth-child(2) {
+    -webkit-animation: bob 5700ms ease-out infinite;
+}
+
+#lobbyNames li:nth-child(3) {
+    -webkit-animation: bob 5400ms ease-out infinite;
+}
+
+#lobbyNames li:nth-child(4) {
+    -webkit-animation: bob 5200ms ease-out infinite;
+}
+
+#lobbyNames li:nth-child(5) {
+    -webkit-animation: bob 5600ms ease-out infinite;
+}
+
+#lobbyNames li:nth-child(6) {
+    -webkit-animation: bob 5400ms ease-out infinite;
+}
+
+#lobbyNames li:nth-child(7) {
+    -webkit-animation: bob 5200ms ease-out infinite;
+}
+
+@-webkit-keyframes bob {
+    0% {
+        -webkit-transform: rotate(-40deg) translateX(-2px);
+    }
+    50% {
+        -webkit-transform: rotate(-40deg) translateX(20px);
+    }
+    100% {
+        -webkit-transform: rotate(-40deg) translateX(-2px);
+    }
+}
+
+#lobbyNames {
+    color: black;
+    display: inline-block;
+    margin-top: 102px;
+}
+
+#lobbyNames {
+    font-size: 1.5rem;
+    margin-bottom: 0%;
+}
+
+.players {
+    margin-top: 176px;
+    margin-left: -181px;
+    font-size: 1.75rem;
+    margin-bottom: -59px;
+    color: white;
+}

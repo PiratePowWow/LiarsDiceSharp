@@ -1,0 +1,136 @@
+.homePage{
+  display: block;
+  width:60%;
+  margin-left: 19%;
+  margin-top: 10%;
+}
+.newG{
+  margin-top: 10px;
+  position: relative;
+}
+.newGame div, .enterKey div{
+  display: inline-block;
+  width:45%;
+}
+.homePage input {
+  margin-top: 11%;
+  border-radius: 5px;
+  padding-left: 6px;
+  padding-right: 6px;
+  color: maroon;
+}
+ .homePage button{
+   margin-top: 11%;
+   border-radius: 5px;
+   padding-left: 6px;
+   padding-right: 6px;
+   color: white;
+ }
+ #newConnect {
+     background-color: black;
+     height: 65px;
+     width: 90px;
+     box-shadow: 0 0 0 4px lightgrey inset;
+     border: 3px maroon solid;
+}
+.homePage input {
+    width:202px;
+    height:56px;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px black solid;
+    font-size: 1.5rem;
+}
+
+/*button{
+  background-color: teal;
+  color:white;
+}*/
+/*.homePage button{
+    font-size: 1.4rem;
+}*/
+#newConnect{
+  font-size: 1.4rem;
+}
+#newConnect:hover{
+  box-shadow: 3px 3px 3px grey;
+}
+
+.new{
+  height:125px;
+  width:125px;
+  box-shadow: 0 0 0 4px lightgrey inset;
+  border: 3px maroon solid;
+  padding:2px;
+  background-color: black;
+  font-size: 1.4rem;
+  /*margin-top: -5%;*/
+  -webkit-animation: growSpin 2200ms ease-out;
+}
+/*  does the cannon ball thing  */
+@-webkit-keyframes growSpin{
+0% {-webkit-transform: scale(.5) translateX(700%) ; background-color: black; border-radius: 100%; border:none; color:black;}
+30%{ -webkit-transform: scale(.7) translateY(-250%) translateX(100%) ; background-color: black; border-radius: 100%; border:none; color:black;}
+60%{ -webkit-transform: scale(.7) rotateZ(360deg);}
+100% {	-webkit-transform: scale(.99) rotateZ(-360deg); color:grey;}
+}
+
+.hidden>form {
+    display:none;
+    width:45%;
+}
+
+.visible>form {
+    display:inline-block;
+    -webkit-animation: left 350ms ease-out;
+}
+.visible>button{
+  z-index: 0;
+  color: rgba(0, 0, 0, 0);
+  background-image: url("./images/pirateflag.png");
+  background-repeat:no-repeat;
+  background-size: 100px 100px;
+  background-position: center center;
+}
+
+
+@-webkit-keyframes left{
+0% {	-webkit-transform:translateZ(-500%) (-50%); opacity: .2}
+90%{-webkit-transform:translateX(50%) ;opacity: .5}
+100% {	-webkit-transform:translateX(0%) (-50%); opacity: 1}
+}
+
+.hide{
+  display: none;
+}
+
+h4{
+  margin-left: -5%;
+  width: 100%;
+  margin-top: 7%;
+  color: lightgrey;
+  font-size: 1.5rem;
+  text-align: center;
+  -webkit-animation: heyGrow 350ms ease-out;
+}
+@-webkit-keyframes heyGrow{
+0% {-webkit-transform: scale(.5); }
+100% {	-webkit-transform: scale(.99);}
+}
+#questionMark{
+  margin-left: 295px;
+  margin-top: 38px;
+  width: 50px;
+  height: 50px;
+  font-size: 4rem;
+  -webkit-animation: heyThere 2000ms ease-out;
+}
+@-webkit-keyframes heyThere{
+0% {-webkit-transform: translateX(-5000%) scale(0);}
+50% {-webkit-transform: translateX(500%) scale(.5) ;}
+100% {	-webkit-transform: translateX(0%) scale(.99) ;}
+}
+
+#questionMark:hover{
+  box-shadow: none;
+  color:maroon;
+}

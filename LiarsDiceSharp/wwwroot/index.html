@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>
+    Liars Dice
+  </title>
+  <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" charset="utf-8"> -->
+  <link href='https://fonts.googleapis.com/css?family=IM+Fell+English+SC' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" media="screen"
+        title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/main.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/homePage.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/lobby.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/rulesPage.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/realRules.css" media="screen" title="no title" charset="utf-8">
+</head>
+<body>
+<!-- <div class="title"><img src="/images/title.png" alt="" /></div> -->
+<!-- rules homepage display -->
+<section class="rulesPage">
+  <img src="./images/title3.png" alt=""/>
+  <button class="continue" type="button" name="continue">Start playing!!</button>
+  <button class="learn" type="button" name="learn">Learn to play!!</button>
+
+
+</section>
+
+<!--  RULES -->
+<section class="realRules inactive">
+  <div class="rulesArea">
+    <img class="rulersOne" src="./images/rules1.png" alt=""/>
+    <img class="rulersTwo" src="./images/rules2.png" alt=""/>
+    <img class="rulersThree" src="./images/rules3.png" alt=""/>
+    <img class="rulersFour" src="./images/rules4.png" alt=""/>
+    <button class="gotIt" type="button" name="gotIt">got it!</button>
+  </div>
+</section>
+<!--  home page section -->
+<section class="homePage inactive">
+  <div class="title"><img src="/images/title.png" alt=""/></div>
+
+  <div class="newGame">
+    <button type="button" class="new" name="button">Let's Play!</button>
+    <form class="newG">
+      <input type="text" id="name" name="name" value="" placeholder="your name">
+      <input type="text" id="roomCode" name="roomCode" value="" placeholder="room code OR submit">
+      <button id="newConnect" class="submit" type="submit" name="submit">Submit</button>
+      <!-- $('#newConnect').on('click',connectAndCreateNewGame) -->
+    </form>
+  </div>
+  <div class="question">
+    <button id="questionMark" type="button" name="button">???</button>
+    <h4 class="hide">Hit Let's Play.<br> To start a new game, just enter your name.<br> To join an existing name, enter
+      your name and the room code<br>(get the room code from your friend IRL).</h4>
+  </div>
+  <!-- <h2>OR</h2> -->
+  <!-- <div class="enterKey">
+    <button type="button" class="enter" name="button">Enter A Room Key</button>
+    <form class="enterK">
+      <input type="text" id="roomCode" name="name" value="" placeholder="enter room key">
+      <input type="text" id="nameTwo" name="name" value="" placeholder="enter your name">
+      <button id="roomConnect" type="submit" name="submit">Submit</button>
+    </form>
+  </div> -->
+</section>
+
+<!-- end of home page -->
+
+<!--  lobby section -->
+<section class="lobby inactive">
+  <div class="titleLobby"><img src="/images/title.png" alt=""/></div>
+  <div class="nameContent" id="lobbyNames">
+    <h2 class="players">...all hands on deck?</h2>
+    <ul></ul>
+  </div>
+  <div class="whenReady">
+    <h3>Wait here for your friends.</h3>
+    <div class="roomNumber"></div>
+    <br>
+    <h1>When ready click the moon!</h1>
+  </div>
+  <button class="box" type="button" name="button">
+    <img src="/images/moon.png" class="layer" alt=""/>
+  </button>
+
+
+</section>
+<!-- end of lobby -->
+
+
+<section class="bigSection inactive">
+  <div class="titleBig"><img src="/images/title.png" alt=""/></div>
+  <!-- <div class="roomNumber"> </div> -->
+  <div class="nameContent" id="gameNames">
+    <ul></ul>
+  </div>
+  <div class="error no">That was not a valid play. Please try again or revisit the rules.<p>click to close</p>
+  </div>
+
+  <!-- BIG thanks to https://codepen.io/pukidepa/pen/ebgHy for helping me create the dice and for the cool background image of the dice!!!! I don't know you, but I love you forever!! -->
+  <!-- BIG thanks to http://www.hongkiat.com/blog/css3-bounce-effect/ for an awesome bounce effect demo!! Located in main.css-->
+  <!--  score tracker    -->
+
+  <div class="cup2"></div>
+
+  <div id="cupDrop" class="cup"></div>
+
+  <div class="diceContainer">
+    <!-- first dice -->
+
+    <div class="containerA">
+      <div id="cube" class="bounce">
+        <div class="top"></div>
+        <div class="front"></div>
+        <div class="left"></div>
+        <div class="back"></div>
+        <div class="right"></div>
+        <div class="bottom"></div>
+      </div>
+    </div>
+    <!-- second dice -->
+    <div class="containerB">
+      <div id="cube2" class="bounce">
+        <div class="top"></div>
+        <div class="front"></div>
+        <div class="left"></div>
+        <div class="back"></div>
+        <div class="right"></div>
+        <div class="bottom"></div>
+      </div>
+    </div>
+    <br/>
+    <!-- third dice   -->
+    <div class="containerC">
+      <div id="cube3" class="bounce">
+        <div class="top"></div>
+        <div class="front"></div>
+        <div class="left"></div>
+        <div class="back"></div>
+        <div class="right"></div>
+        <div class="bottom"></div>
+      </div>
+    </div>
+
+    <!-- fourth dice -->
+    <div class="containerD">
+      <div id="cube4" class="bounce">
+        <div class="top"></div>
+        <div class="front"></div>
+        <div class="left"></div>
+        <div class="back"></div>
+        <div class="right"></div>
+        <div class="bottom"></div>
+      </div>
+    </div>
+
+    <!-- fifth dice -->
+    <div class="containerE">
+      <div id="cube5" class="bounce">
+        <div class="top"></div>
+        <div class="front"></div>
+        <div class="left"></div>
+        <div class="back"></div>
+        <div class="right"></div>
+        <div class="bottom"></div>
+      </div>
+    </div>
+
+    <!-- all dice container close       -->
+  </div>
+
+
+  <form class="diceSubmit">
+    <input class="quantity" type="text" name="quantity" value="" placeholder="how many">
+    <input class="quality" type="text" name="quality" value="" placeholder="dice face">
+    <button type="submit" class="submitDice" name="submitDice">Submit</button>
+    <button type="button" class="bluff" type="submit" name="bluff">Call Bluff</button>
+    <button type="button" class="seeRulers" name="seeRulers">View Rules</button>
+    <button type="button" class="abandonShip" name="abandonShip">Abandon Ship</button>
+  </form>
+  <div class="spaceBar">press SPACEBAR to view dice
+  </div>
+  <!-- closing bigSection -->
+</section>
+<!-- see rules from gameroom  -->
+<section class="realRulers inactive">
+  <div class="rulesArea">
+    <img class="rulersOne" src="./images/rules1.png" alt=""/>
+    <img class="rulersTwo" src="./images/rules2.png" alt=""/>
+    <img class="rulersThree" src="./images/rules3.png" alt=""/>
+    <img class="rulersFour" src="./images/rules4.png" alt=""/>
+    <button class="gotItz" type="button" name="gotItz">got it!</button>
+  </div>
+</section>
+<!--  someone lost area   -->
+<section class="loser inactive">
+  <div class="titleLoser"><img src="/images/title.png" alt=""/></div>
+  <div class="loserP">
+    <div class="nameLoser"></div>
+  </div>
+  <button class="reroll" type="button" name="reRoll">Start next round</button>
+</section>
+<!--   scripts    -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.3/sockjs.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.3/signalr.min.js"></script>
+<script src="bower_components/underscore/underscore.js" charset="utf-8"></script>
+<script src="bower_components/jquery/dist/jquery.js" charset="utf-8"></script>
+<script src="homePage.js" charset="utf-8"></script>
+<script src="main.js" charset="utf-8"></script>
+
+
+</body>
+</html>

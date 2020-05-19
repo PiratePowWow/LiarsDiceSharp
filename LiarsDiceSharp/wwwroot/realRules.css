@@ -1,0 +1,33 @@
+.realRules{
+  display: block;
+  width:60%;
+  margin-left: 19%;
+
+}
+
+.rulersOne , .rulersTwo , .rulersThree , .rulersFour{
+  opacity: .5;
+    width:100%;
+    margin-top: -6px;
+}
+
+
+.gotIt {
+    background-color: maroon;
+    height: 80px;
+    width: 162px;
+    box-shadow: 0 0 0 4px black inset;
+    border: 2px grey solid;
+    margin-left: 61%;
+    z-index: 2;
+    position: absolute;
+    margin-top: -1262px;
+    font-size: 2rem;
+    border-radius: 5px;
+    color:white;
+}
+.rulesArea{
+  height: 400px;
+  margin-top: 100px;
+  overflow: scroll;
+}

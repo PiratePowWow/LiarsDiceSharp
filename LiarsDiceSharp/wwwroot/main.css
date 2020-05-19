@@ -1,0 +1,494 @@
+/*removes blue line after click*/
+*:focus {outline:none !important}
+/*makes buttons look pushed in on hover*/
+ button {
+  opacity: 1;
+}
+*{
+  font-family: 'IM Fell English SC', serif;
+}
+ button:hover {
+  /*opacity: 0.85;*/
+  box-shadow: 3px 3px 3px grey;
+  /*color:maroon;*/
+}
+/*removes the standard button styling- thanks: http://code.stephenmorley.org/html-and-css/styling-buttons-with-css3/*/
+button , input{
+  margin      : 0;
+  padding     : 0;
+  border      : 0;
+  background  : transparent;
+  font-family : inherit;
+  font-size   : 1em;
+  cursor      : pointer;
+}
+/*adjusts placeholder text color*/
+::-webkit-input-placeholder {
+   color: #454545;
+   font-size: 1.3rem;
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #454545;
+   font-size: 1rem;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color:#454545;
+   font-size: 1rem;
+}
+
+:-ms-input-placeholder {
+   color: #454545;
+   font-size: 1rem;
+}
+
+body{
+  font-family: Helvetica Neue, Arial;
+}
+button::-moz-focus-inner{
+  padding : 0;
+  border  : 0;
+}
+body{
+  background-image: url("./images/shipblack.jpg");
+  background-repeat:no-repeat;
+  background-size: cover;
+  background-color: black;
+}
+.roomNumber{
+  float:left;
+  float: top;
+  position: relative;
+}
+h1{
+  width:100%;
+}
+.bigSection{
+    /*margin-top: 220px;*/
+}
+.inactive{
+  display:none !important;
+}
+
+.title{
+  margin: 0 auto;
+  margin-top: -7%;
+  margin-left: 52%;
+  position:absolute;
+}
+.titleBig{
+  margin: 0 auto;
+  margin-top: 141px;
+  margin-left: 970px;
+  position: absolute;
+}
+.titleLoser{
+  margin: 0 auto;
+  margin-top: 2%;
+  margin-left: 70%;
+  position: relative;
+}
+ul , li{
+  list-style-type: none;
+}
+.nameContent{
+  /*margin:0 auto;*/
+  margin-top: 200px;
+  color:black;
+  opacity: 1;
+  list-style-image: none;
+  z-index: 3;
+  position: absolute;
+  font-size: 1.2rem;
+}
+/*.nameContent li{
+    display: inline-block;
+}*/
+
+#gameNames {
+    padding: 1%;
+    margin-left: 2%;
+    width: 210px;
+    margin-top: 137px;
+    border: 2px rgba(0, 0, 0, .85) solid;
+    border-radius: 4px;
+    box-shadow: 3px 3px 3px grey;
+}
+#gameNames::after{
+  background-image: url("./images/paper2.jpg");
+  background-repeat:no-repeat;
+  background-size: 100% 100%;
+  background-position: center center;
+  content: "";
+  opacity: 0.7;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+.activePlayer {
+    margin: 0.75em 0;
+    padding: 0 1em;
+    list-style: none;
+}
+.activePlayer:before {
+    content: "";
+    border-color: transparent #111;
+    border-style: solid;
+    border-width: 0.35em 0 0.35em 0.45em;
+    display: block;
+    height: 0;
+    width: 0;
+    left: -1em;
+    top: 0.9em;
+    position: relative;
+    list-style: none;
+}
+.activePlayer{
+  padding:2%;
+  background-color: rgba(185,172,50,.5);
+  border: rgba(100,0,0,0.7) 2px dotted;
+  opacity: 1;
+  z-index: -1;
+  list-style: none;
+  width: 63%;
+  padding-left: 15%;
+}
+.namesBig{
+  font-size: 2rem;
+}
+.diceSubmit input{
+  text-align: center;
+  display: block;
+  height:50px;
+  margin-left: 50%;
+  background-color: white;
+  width:102px;
+  padding:1px;
+  font-size: 1.9rem;
+}
+input.placeholder {
+    text-align: center;
+}
+.diceSubmit{
+  z-index: 2;
+  margin-top: -261px;
+  position: relative;
+}
+.diceSubmit input{
+  color:maroon;
+  box-shadow: 0 0 0 3px black inset;
+  border: 3px grey solid;
+  border-radius: 5px;
+  margin-bottom: 6px;
+}
+/*.gameInput{
+  margin-left: 60%;
+  margin-top: -150px;
+  background-color: white;
+}*/
+.submitDice {
+    position: relative;
+    z-index: 2;
+    background-color: black;
+    color: white;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    margin-left: 661px;
+    margin-top: 7px;
+    width: 156px;
+    height: 69px;
+    border-radius: 5px;
+    font-size: 2rem;
+}
+.abandonShip {
+    color: white;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    border-radius: 5px;
+    margin-left: 357px;
+    margin-top: 23px;
+    width: 130px;
+    height: 50px;
+    z-index: 2;
+    position: absolute;
+    font-size: 1.2rem;
+    background-color: black;
+}
+.bluff {
+    color: white;
+    box-shadow: 0 0 0 3px grey inset;
+    background-color: black;
+    border: 3px maroon solid;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    margin-left: 63px;
+    margin-right: 43px;
+    margin-top: 23px;
+    width: 130px;
+    height: 50px;
+    position: absolute;
+    font-size: 1.2rem;
+}
+.seeRulers {
+    position: absolute;
+    z-index: 2;
+    background-color: black;
+    color: white;
+    box-shadow: 0 0 0 3px grey inset;
+    border: 3px maroon solid;
+    margin-top: 23px;
+    margin-left: 210px;
+    width: 130px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+ .nameLoser{
+  font-size: 3rem;
+  width: 37%;
+  margin-left: 20%;
+  margin-top: 2%;
+  position: relative;
+  text-align: center;
+}
+.reroll {
+  position: relative;
+  z-index: 2;
+  background-color: black;
+  color: white;
+  box-shadow: 0 0 0 3px grey inset;
+  border: 4px maroon solid;
+  width: 196px;
+  height: 103px;
+  font-size: 2rem;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 427px;
+}
+
+.rulersOne , .rulersTwo , .rulersThree , .rulersFour{
+  opacity: .5;
+    width:100%;
+    margin-top: -3px;
+}
+.yes {
+    width: 31%;
+    height: 55%;
+    position: absolute;
+    z-index: 3;
+    margin-top: 115px;
+    opacity: .9;
+    margin-left: 330px;
+    font-size: 3rem;
+    background-color: maroon;
+    border: black 5px solid;
+    padding: 7%;
+    padding-top: 86px;
+    padding-left: 166px;
+    padding-right: 166px;
+    text-align: center;
+    box-shadow: 20px 20px 20px grey;
+}
+.spaceBar {
+    color: white;
+    margin-left: -299px;
+    /*margin-left: 1299px;*/
+    margin-top: 14px;
+    font-size: 1.6rem;
+    opacity: 0;
+    font-size: 2rem;
+    -webkit-animation: spaceBar 9900ms ease-out;
+  }
+  @-webkit-keyframes spaceBar{
+    10% {margin-left: 499px;}
+    70% {margin-left: 250px;}
+    90% {opacity:1; }
+    100% {opacity:0;}
+}
+
+.no{
+  display: none;
+}
+.error:hover {
+  cursor:pointer;
+}
+.cup2{
+  margin-top: 150px;
+  margin-left: 57%;
+  width:450px;
+  height:450px;
+  position:absolute;
+  background-image: url("./images/cupbones6.png");
+  background-repeat:no-repeat;
+  z-index: 3;
+  -webkit-animation: grow 2200ms ease-out;
+}
+
+@-webkit-keyframes grow{
+0% {	-webkit-transform: scale(.0001) rotateZ(360deg) ; }
+100% {	-webkit-transform: scale(.99) rotateZ(-360deg); }
+}
+
+.cup{
+  margin-top: -100px;
+  margin-left: 23%;
+  width:550px;
+  height:650px;
+  position:absolute;
+  background-image: url("./images/cupbones3.png");
+  background-repeat:no-repeat;
+  opacity:1;
+}
+#cupDrop{
+  position:relative;
+  transform-style:flat;
+  transition: transform .15s;
+  z-index: 1;
+  -webkit-animation: drop 3500ms ease-out;
+}
+@-webkit-keyframes drop{
+0% {	-webkit-transform:translateY(-500%); }
+90%{-webkit-transform:translateY(-500%);}
+100% {	-webkit-transform:translateY(0%); }
+}
+.diceContainer{
+  display: inline-block;
+  margin-left: 20%;
+  margin-top: -15%;
+  transform: scale(.25);
+  transform-origin: 10% 10%;
+  position:absolute;
+  z-index: 0;
+}
+
+.containerA , .containerB , .containerC , .containerD , .containerE{
+  /*margin:50px auto;*/
+  width:200px;
+  height:200px;
+  perspective:600px;
+  display: inline-block;
+  margin-left: 60px;
+  margin-right: 60px;
+/*rotates each dice*/
+  transform:rotate(45deg);
+
+  /*padding-left: 55px;
+  padding-right: 50px;*/
+-webkit-animation: rotate 4200ms linear;
+}
+
+@-webkit-keyframes rotate {
+  0% { -webkit-transform: rotate(0deg);}
+  100%{ -webkit-transform: rotate(0deg);}
+}
+
+
+.containerA{
+  margin-left: 22%;
+}
+.containerA , .containerB{
+  margin-bottom: -20px;
+}
+
+
+#cube , #cube2 , #cube3 , #cube4 , #cube5 {
+  position:relative;
+  transform-style: preserve-3d;
+  transition: transform .5s;
+/*keep at 100% to keep dice in place when rotating*/
+  width: 100%;
+  height: 100%;
+}
+#cube  {	-webkit-animation: bounce 5200ms ease-out;}
+#cube2 {	-webkit-animation: bounce 3700ms ease-out;}
+#cube3 {	-webkit-animation: bounce 3400ms ease-out;}
+#cube4 {	-webkit-animation: bounce 4800ms ease-out;}
+#cube5 {	-webkit-animation: bounce 3500ms ease-out;}
+
+
+@-webkit-keyframes bounce{
+  0% {	-webkit-transform:translateY(-350%) translateX(-900%) rotateX(100deg)  rotateZ(100deg);}
+  5% { -webkit-transform:translateY(0%) translateX(-700%) rotateX(200deg)  rotateZ(110deg);}
+  10%{-webkit-transform:translateY(-250%) translateX(-500%) rotateX(300deg) rotateZ(300deg);}
+  15% {-webkit-transform:translateY(0%) translateX(-450%) rotateX(400deg)  rotateZ(310deg);}
+  20% {-webkit-transform:translateY(-100%) translateX(-400%) rotateX(500deg)  rotateZ(320deg);}
+  25% {	-webkit-transform:translateY(0%) translateX(-350%) rotateX(600deg)  rotateZ(400deg);}
+  30% {	-webkit-transform:translateY(-90%) translateX(-300%) rotateX(700deg)  rotateZ(500deg);}
+  35% {	-webkit-transform:translateY(0%) translateX(-250%) rotateX(800deg)  rotateZ(510deg);}
+  40% {	-webkit-transform:translateY(-80%) translateX(-200%) rotateX(900deg)  rotateZ(600deg);}
+  45% {	-webkit-transform:translateY(0%) translateX(-150%) rotateX(1000deg) rotateZ(610deg);}
+  50% {  -webkit-transform:translateY(-70%) translateX(-100%) rotateX(1100deg)  rotateZ(620deg);}
+  55%{  -webkit-transform:translateY(0%) translateX(-95%) rotateX(1200deg)  rotateZ(630deg);}
+  60%{  -webkit-transform:translateY(-60%) translateX(-90%) rotateX(1300deg)  rotateZ(640deg);}
+  65%{  -webkit-transform:translateY(0%) translateX(-80%) rotateX(1400deg)  rotateZ(650deg);}
+  70%{  -webkit-transform:translateY(-50%) translateX(-70%) rotateX(1500deg)  rotateZ(660deg);}
+  75% {  -webkit-transform:translateY(0%) translateX(-60%) rotateX(1600deg)  rotateZ(670deg);}
+  80%{  -webkit-transform:translateY(-40%) translateX(-50%) rotateX(1700deg)  rotateZ(680deg);}
+  85%{  -webkit-transform:translateY(0%) translateX(-40%) rotateX(1800deg)  rotateZ(690deg);}
+  90%{  -webkit-transform:translateY(-30%) translateX(-30%) rotateX(1900deg)  rotateZ(700deg);}
+  95%{  -webkit-transform:translateY(0%) translateX(-20%) rotateX(2000deg)  rotateZ(710deg);}
+  100%{  -webkit-transform:translateY(0%) translateX(0%) rotateX(2500deg)  rotateZ(720deg);}
+}
+
+
+
+
+#cube div , #cube2 div , #cube3 div , #cube4 div , #cube5 div{
+  border:1px solid #806000;
+  border-radius:30px;
+  width:198px;
+  height:198px;
+  position:absolute;
+  background-image: url("./images/mainDice5.png");
+  background-repeat:no-repeat;
+  opacity:.75;
+}
+
+.front  { transform: rotateY(   0deg ) translateZ( 100px ); background-position: -12px -12px; }
+.back   { transform: rotateX( 180deg ) translateZ( 100px ); background-position: -463px -239px; }
+.right  { transform: rotateY(  90deg ) translateZ( 100px ); background-position: -236px -12px; }
+.left   { transform: rotateY( -90deg ) translateZ( 100px ); background-position: -241px -235px; }
+.top    { transform: rotateX(  90deg ) translateZ( 100px ); background-position: -459px -12px; }
+.bottom { transform: rotateX( -90deg ) translateZ( 100px ); background-position: -12px -235px; }
+
+/*adjusted cube numbers*/
+/*first dice*/
+#cube.showOne1 { transform: translateZ( -100px ) rotateY(    0deg ); }
+#cube.showOne6 { transform: translateZ( -100px ) rotateX( -180deg ); }
+#cube.showOne2 { transform: translateZ( -100px ) rotateY(  -90deg ); }
+#cube.showOne5 { transform: translateZ( -100px ) rotateY(   90deg ); }
+#cube.showOne3 { transform: translateZ( -100px ) rotateX(  -90deg ); }
+#cube.showOne4 { transform: translateZ( -100px ) rotateX(   90deg ); }
+/*second dice*/
+#cube2.showTwo1 { transform: translateZ( -100px ) rotateY(    0deg ); }
+#cube2.showTwo6 { transform: translateZ( -100px ) rotateX( -180deg ); }
+#cube2.showTwo2 { transform: translateZ( -100px ) rotateY(  -90deg ); }
+#cube2.showTwo5 { transform: translateZ( -100px ) rotateY(   90deg ); }
+#cube2.showTwo3 { transform: translateZ( -100px ) rotateX(  -90deg ); }
+#cube2.showTwo4 { transform: translateZ( -100px ) rotateX(   90deg ); }
+/*third dice*/
+#cube3.showThree1 { transform: translateZ( -100px ) rotateY(    0deg ); }
+#cube3.showThree6 { transform: translateZ( -100px ) rotateX( -180deg ); }
+#cube3.showThree2 { transform: translateZ( -100px ) rotateY(  -90deg ); }
+#cube3.showThree5 { transform: translateZ( -100px ) rotateY(   90deg ); }
+#cube3.showThree3 { transform: translateZ( -100px ) rotateX(  -90deg ); }
+#cube3.showThree4 { transform: translateZ( -100px ) rotateX(   90deg ); }
+/*fourth dice*/
+#cube4.showFour1 { transform: translateZ( -100px ) rotateY(    0deg ); }
+#cube4.showFour6 { transform: translateZ( -100px ) rotateX( -180deg ); }
+#cube4.showFour2 { transform: translateZ( -100px ) rotateY(  -90deg ); }
+#cube4.showFour5 { transform: translateZ( -100px ) rotateY(   90deg ); }
+#cube4.showFour3 { transform: translateZ( -100px ) rotateX(  -90deg ); }
+#cube4.showFour4 { transform: translateZ( -100px ) rotateX(   90deg ); }
+/*fifth dice*/
+#cube5.showFive1 { transform: translateZ( -100px ) rotateY(    0deg ); }
+#cube5.showFive6 { transform: translateZ( -100px ) rotateX( -180deg ); }
+#cube5.showFive2 { transform: translateZ( -100px ) rotateY(  -90deg ); }
+#cube5.showFive5 { transform: translateZ( -100px ) rotateY(   90deg ); }
+#cube5.showFive3 { transform: translateZ( -100px ) rotateX(  -90deg ); }
+#cube5.showFive4 { transform: translateZ( -100px ) rotateX(   90deg ); }

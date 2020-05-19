@@ -1,0 +1,92 @@
+.rulesPage{
+  display: block;
+  width:60%;
+  margin-left: 19%;
+  margin-top: 2%;
+
+}
+.rulesPage img{
+  width:100%;
+  margin-left: -60px
+}
+
+.learn{
+
+  border-radius: 5px;
+  padding-left: 6px;
+  padding-right: 6px;
+  color: white;
+}
+.continue{
+
+  border-radius: 5px;
+  padding-left: 6px;
+  padding-right: 6px;
+  color: white;
+}
+
+.rulesPage button{
+    font-size: 2rem;
+    margin: 5%;
+    display: inline-block;
+    width:25%;
+    margin-top: 6%;
+}
+.learn{
+  height:155px;
+  width:155px;
+  box-shadow: 0 0 0 4px lightgrey inset;
+  border: 6px maroon solid;
+    background-color: black;
+  -webkit-animation: growSpins 2200ms ease-out;
+}
+
+/*@-webkit-keyframes growSpins{
+0% {-webkit-transform: scale(.5) translateX(700%) ; background-color: black; border-radius: 100%; border:none;}
+30%{ -webkit-transform: scale(.7) translateY(-250%) translateX(100%) ; background-color: black; border-radius: 100%; border:none;}
+60%{ -webkit-transform: scale(.7) rotateZ(360deg);}
+100% {	-webkit-transform: scale(.99) rotateZ(-360deg) ;}
+}*/
+
+.continue{
+  height:155px;
+  width:155px;
+  box-shadow: 0 0 0 4px lightgrey inset;
+  border: 6px maroon solid;
+    background-color: black;
+  -webkit-animation: growSpinss 2900ms ease-out;
+}
+/*@-webkit-keyframes growSpinss{
+0% {-webkit-transform: scale(.5) translateX(500%) ; background-color: black; border-radius: 100%; border:none;}
+30%{ -webkit-transform: scale(.7) translateY(-350%) translateX(100%) ; background-color: black; border-radius: 100%; border:none;}
+60%{ -webkit-transform: scale(.7) rotateZ(360deg);}
+100% {	-webkit-transform: scale(.99) rotateZ(-360deg) ;}
+}*/
+
+.realRulers{
+  display: block;
+  width:60%;
+  margin-left: 19%;
+
+}
+.realRulers img{
+  width:100%;
+  margin-left: -60px
+}
+
+
+
+.gotItz {
+    background-color: maroon;
+    height: 70px;
+    width: 162px;
+    box-shadow: 0 0 0 4px black inset;
+    border: 2px grey solid;
+    margin-left: 2%;
+    z-index: 2;
+    position: absolute;
+    margin-top: -1063px;
+    font-size: 2rem;
+    border-radius: 5px;
+    color:white;
+}
