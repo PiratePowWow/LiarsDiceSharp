@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -8,213 +7,239 @@ using System.Threading.Tasks;
 using LiarsDiceSharp.Models.Contexts;
 using LiarsDiceSharp.Models.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace LiarsDiceSharp.LogicEngines
 {
     public class GameLogic
     {
-        private readonly GameContext gameContext;
+        private readonly GameContext _gameContext;
 
         public GameLogic(GameContext gameContext)
         {
-            this.gameContext = gameContext;
-            gameContext.GameStates = gameContext.GameStates;
+            this._gameContext = gameContext;
         }
 
-        public string rollDice()
+        public static string RollDice()
         {
-            List<Int32> dice = new List<Int32>();
+            var dice = new List<int>();
             int i;
             for (i = 0; i < 5; i++)
             {
-                Random r = new Random();
+                var r = new Random();
                 dice.Add(r.Next(6) + 1);
             }
-            
+
             return JsonSerializer.Serialize(dice);
-    }
+        }
 
-    public async Task<Player> determineLoser(GameState gameState) {
-        List<Int32> allDice = new List<Int32>();
-        ICollection<Player> playersInGame = await gameContext.Players.Where(player => player.GameState == gameState).ToListAsync();
-        Player loser;
-        foreach (Player player in playersInGame)
+        public async Task<Player> DetermineLoser(GameState gameState)
         {
-            var playerDice = JsonSerializer.Deserialize<ICollection<int>>(player.Dice);
-            allDice.AddRange(playerDice);
-        }
-        var stake = JsonSerializer.Deserialize<ICollection<Int16>>((await gameContext.Players.FindAsync(gameState.LastPlayerId)).Stake);
-        int count = 0;
-        foreach (int die in allDice){
-           if (die == stake.ElementAt(1) || die.Equals(1)){
-               count += 1;
-           }
-        }
-        if (count < stake.ElementAt(0)){
-            loser = await gameContext.Players.FindAsync(gameState.LastPlayerId);
+            var allDice = new List<int>();
+            ICollection<Player> playersInGame =
+                await _gameContext.Players.Where(player => player.GameState == gameState).ToListAsync();
+            Player loser;
+            foreach (var player in playersInGame)
+            {
+                var playerDice = JsonSerializer.Deserialize<ICollection<int>>(player.Dice);
+                allDice.AddRange(playerDice);
+            }
+
+            var stake = JsonSerializer.Deserialize<ICollection<Int16>>(
+                (await _gameContext.Players.FindAsync(gameState.LastPlayerId)).Stake);
+            var count = allDice.Count(die => die == stake.ElementAt(1) || die.Equals(1));
+
+            if (count < stake.ElementAt(0))
+            {
+                loser = await _gameContext.Players.FindAsync(gameState.LastPlayerId);
+                loser.Score += 1;
+                return _gameContext.Players.Update(loser).Entity;
+            }
+
+            loser = await _gameContext.Players.FindAsync(gameState.ActivePlayerId);
             loser.Score += 1;
-            return gameContext.Players.Update(loser).Entity;
+            return _gameContext.Players.Update(loser).Entity;
         }
-        loser = await gameContext.Players.FindAsync(gameState.ActivePlayerId);
-        loser.Score += 1;
-        return gameContext.Players.Update(loser).Entity;
-    }
 
-    public async Task<bool> isValidRaise(GameState gameState, ICollection<Int16> newStake){
-        if (gameState.LastPlayerId == null){
-            return true;
-        }
-        ICollection<Int16> oldStake = JsonSerializer.Deserialize<ICollection<Int16>>((await gameContext.Players.FindAsync(gameState.LastPlayerId)).Stake);
-        if (newStake != null && newStake.ElementAt(0) > 0 && newStake.ElementAt(1) > 0 && newStake.ElementAt(1) < 7 && newStake.Count == 2) {
-            if (oldStake == null) {
+        public async Task<bool> IsValidRaise(GameState gameState, ICollection<Int16> newStake)
+        {
+            if (gameState.LastPlayerId == null)
+            {
                 return true;
-            } else if (newStake.ElementAt(0) > oldStake.ElementAt(0)) {
-                return true;
-            } else if (newStake.ElementAt(0).Equals(oldStake.ElementAt(0))  && newStake.ElementAt(1) > oldStake.ElementAt(1)) {
-                return true;
-            }else{
-                return false;
             }
-        }
-        return false;
-    }
 
-    public async Task setNextActivePlayer(string roomCode) {
-        GameState gameState = await gameContext.GameStates.FindAsync(roomCode);
-        string activePlayer = gameState.ActivePlayerId;
-        
-        ICollection<Player> playersInGame = await gameContext.Players.Where(player => player.GameState == gameState).OrderBy(player => player.SeatNum).ToListAsync();
-        if (activePlayer == null) {
-            gameState.ActivePlayerId = playersInGame.ElementAt(0).Id;
-            gameContext.GameStates.Update(gameState);
-        }
-        else{
-            gameState.LastPlayerId = gameState.ActivePlayerId;
-            int nextIndex = playersInGame.IndexOf(await gameContext.Players.FindAsync(gameState.LastPlayerId));
-            ICollection<Player> playersInGameOrderedBySeatNum = await gameContext.Players.Where(player => player.GameState == gameState).OrderBy(player => player.SeatNum).ToListAsync();
-            if (nextIndex + 1 >= playersInGameOrderedBySeatNum.Count){
-                nextIndex = -1;
+            var oldStake =
+                JsonSerializer.Deserialize<ICollection<short>>(
+                    (await _gameContext.Players.FindAsync(gameState.LastPlayerId)).Stake);
+            if (newStake == null || newStake.ElementAt(0) <= 0 || newStake.ElementAt(1) <= 0 ||
+                newStake.ElementAt(1) >= 7 || newStake.Count != 2) return false;
+            if (oldStake == null)
+            {
+                return true;
             }
-            while(playersInGameOrderedBySeatNum.ElementAt(nextIndex + 1).Dice == null){
-                nextIndex++;
-                if (nextIndex + 1 >= playersInGameOrderedBySeatNum.Count){
-                    nextIndex = 0;
+
+            if (newStake.ElementAt(0) > oldStake.ElementAt(0))
+            {
+                return true;
+            }
+
+            return newStake.ElementAt(0).Equals(oldStake.ElementAt(0)) &&
+                   newStake.ElementAt(1) > oldStake.ElementAt(1);
+        }
+
+        public async Task SetNextActivePlayer(string roomCode)
+        {
+            var gameState = await _gameContext.GameStates.FindAsync(roomCode);
+            var activePlayer = gameState.ActivePlayerId;
+
+            ICollection<Player> playersInGame = await _gameContext.Players
+                .Where(player => player.GameState == gameState)
+                .OrderBy(player => player.SeatNum).ToListAsync();
+            if (activePlayer == null)
+            {
+                gameState.ActivePlayerId = playersInGame.ElementAt(0).Id;
+                _gameContext.GameStates.Update(gameState);
+            }
+            else
+            {
+                gameState.LastPlayerId = gameState.ActivePlayerId;
+                var nextIndex = playersInGame.ToList()
+                    .IndexOf(await _gameContext.Players.FindAsync(gameState.LastPlayerId));
+                ICollection<Player> playersInGameOrderedBySeatNum = await _gameContext.Players
+                    .Where(player => player.GameState == gameState).OrderBy(player => player.SeatNum).ToListAsync();
+                if (nextIndex + 1 >= playersInGameOrderedBySeatNum.Count)
+                {
+                    nextIndex = -1;
+                }
+
+                while (playersInGameOrderedBySeatNum.ElementAt(nextIndex + 1).Dice == null)
+                {
+                    nextIndex++;
+                    if (nextIndex + 1 >= playersInGameOrderedBySeatNum.Count)
+                    {
+                        nextIndex = 0;
+                    }
+                }
+
+                gameState.ActivePlayerId = playersInGameOrderedBySeatNum.ElementAt(nextIndex + 1).Id;
+                _gameContext.GameStates.Update(gameState);
+            }
+
+            await Console.Out.WriteLineAsync("Setting Active Player");
+        }
+
+        private async Task<string> MakeRoomCode()
+        {
+            var isPreExistingCode = true;
+            var roomCode = "";
+            while (isPreExistingCode)
+            {
+                const string roomCodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                var code = new StringBuilder();
+                var rnd = new Random();
+                while (code.Length < 4)
+                {
+                    var index = (rnd.Next(0, roomCodeChars.Length));
+                    code.Append(roomCodeChars[index]);
+                }
+
+                roomCode = code.ToString();
+                if (await _gameContext.GameStates.FindAsync(roomCode) == null)
+                {
+                    isPreExistingCode = false;
                 }
             }
 
-            gameState.ActivePlayerId = playersInGameOrderedBySeatNum.ElementAt(nextIndex + 1).Id;
-            gameContext.GameStates.Update(gameState);
+            return roomCode;
         }
-        await Console.Out.WriteAsync("Setting Active Player");
-    }
 
-    public async Task<string> makeRoomCode(){
-        bool isPreExistingCode = true;
-        string roomCode = "";
-        while (isPreExistingCode) {
-            string roomCodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            StringBuilder code = new StringBuilder();
-            Random rnd = new Random();
-            while (code.Length < 4) {
-                int index = (rnd.Next(0, roomCodeChars.Length));
-                code.Append(roomCodeChars[index]);
-            }
-            roomCode = code.ToString();
-            if (await gameContext.GameStates.FindAsync(roomCode) == null) {
-                isPreExistingCode = false;
+        public async Task ResetGameState(string roomCode)
+        {
+            var gameState = await _gameContext.GameStates.FindAsync(roomCode);
+            gameState.ActivePlayerId = null;
+            gameState.LastPlayerId = null;
+            _gameContext.GameStates.Update(gameState);
+            ICollection<Player> playersInGame =
+                await _gameContext.Players.Where(player => player.GameState == gameState).ToListAsync();
+            foreach (var player in playersInGame)
+            {
+                player.Dice = null;
+                player.Stake = null;
+                _gameContext.Players.Update(player);
             }
         }
-        return roomCode;
-    }
 
-    public async Task resetGameState(string roomCode) {
-        GameState gameState = await gameContext.GameStates.FindAsync(roomCode);
-        gameState.ActivePlayerId = null;
-        gameState.LastPlayerId = null;
-        gameContext.GameStates.Update(gameState);
-        ICollection<Player> playersInGame = await gameContext.Players.Where(player => player.GameState == gameState).ToListAsync();
-        foreach (Player player in playersInGame) {
-            player.Dice = null;
-            player.Stake = null;
-            gameContext.Players.Update(player);
+        public async Task<string> CreateNewGame(string name, string id)
+        {
+            var roomCode = await MakeRoomCode();
+            var gameState = new GameState(roomCode);
+            gameState.Players.Add(new Player
+            {
+                Id = id,
+                Name = name,
+                SeatNum = 1
+            });
+            await _gameContext.AddAsync(gameState);
+            return roomCode;
         }
-    }
- 
-    public async Task<string> createNewGame(string name, string id){
-        string roomCode = await makeRoomCode();
-        GameState gameState = new GameState(roomCode);
-        gameState.Players.Add(new Player
-        {
-            Id = id,
-            Name = name,
-            SeatNum = 1
-        });
-        await gameContext.AddAsync(gameState);
-        return roomCode;
-    }
 
-    public async Task addPlayer(string name, string roomCode, string id) {
-        GameState gameState = await gameContext.GameStates.FindAsync(roomCode);
-        ICollection<Player> playersInGame = await gameContext.Players.Where(player => player.GameState == gameState).OrderBy(player => player.SeatNum).ToListAsync();
-        gameState.Players.Add(new Player
+        public async Task AddPlayer(string name, string roomCode, string id)
         {
-            Id = id,
-            Name = name,
-            SeatNum = determineSeatNum(playersInGame)
-        });
-        gameContext.Update(gameState);
-    }
+            var gameState = await _gameContext.GameStates.FindAsync(roomCode);
+            ICollection<Player> playersInGame = await _gameContext.Players
+                .Where(player => player.GameState == gameState)
+                .OrderBy(player => player.SeatNum).ToListAsync();
+            gameState.Players.Add(new Player
+            {
+                Id = id,
+                Name = name,
+                SeatNum = DetermineSeatNum(playersInGame)
+            });
+            _gameContext.Update(gameState);
+        }
 
-    public int determineSeatNum(ICollection<Player> playersInGame){
-        int seatNum = 0;
-        int i = 1;
-        foreach (Player player in playersInGame){
-            if (player.SeatNum != i){
-                break;
+        private static int DetermineSeatNum(IEnumerable<Player> playersInGame)
+        {
+            var i = 1;
+            foreach (var player in playersInGame)
+            {
+                if (player.SeatNum != i)
+                {
+                    break;
+                }
+
+                i++;
             }
-            i++;
-        }
-        seatNum = i;
-        return seatNum;
-    }
 
-    public async Task dropPlayer(Player disconnectingPlayer, string id){
-        GameState gameState = (await gameContext.Players.FindAsync(id)).GameState;
-        if(await gameContext.Players.CountAsync(player => player.GameState == gameState) == 1){
-            gameContext.GameStates.Remove(gameState);
-        }else
+            return i;
+        }
+
+        public async Task DropPlayer(Player disconnectingPlayer, string id)
         {
-            gameContext.Players.Remove(disconnectingPlayer);
+            var gameState = (await _gameContext.Players.FindAsync(id)).GameState;
+            if (await _gameContext.Players.CountAsync(player => player.GameState == gameState) == 1)
+            {
+                _gameContext.GameStates.Remove(gameState);
+            }
+            else
+            {
+                _gameContext.Players.Remove(disconnectingPlayer);
+            }
         }
-    }
 
-    public async Task setStake(string id, ICollection<Int16> newStake) {
-        Player player = await gameContext.Players.FindAsync(id);
-        player.Stake = JsonSerializer.Serialize(newStake);
-        gameContext.Players.Update(player);
-    }
-
-    public async Task<bool> isActivePlayer(string id){
-        Player player = await gameContext.Players.FindAsync(id);
-        GameState gameState = player.GameState;
-        string activePlayer = gameState.ActivePlayerId;
-        if (activePlayer == null){
-            return false;
+        public async Task<bool> IsActivePlayer(string id)
+        {
+            var player = await _gameContext.Players.FindAsync(id);
+            var gameState = player.GameState;
+            var activePlayer = gameState.ActivePlayerId;
+            return activePlayer != null && id.Equals(activePlayer);
         }
-        return id.Equals(activePlayer);
-    }
 
-    public async Task<bool> allDiceRolled(string roomCode){
-        GameState gameState = await gameContext.GameStates.FindAsync(roomCode);
-        ICollection<Player> playersInGame = await gameContext.Players.Where(player => player.GameState == gameState).ToListAsync();
-        return playersInGame.All(p => p.Dice != null);
-    }
-
-    public async Task setDice(string id){
-        Player player = await gameContext.Players.FindAsync(id);
-        player.Dice = rollDice();
-        gameContext.Players.Update(player);
-    }
+        public async Task<bool> AllDiceRolled(string roomCode)
+        {
+            var gameState = await _gameContext.GameStates.FindAsync(roomCode);
+            ICollection<Player> playersInGame =
+                await _gameContext.Players.Where(player => player.GameState == gameState).ToListAsync();
+            return playersInGame.All(p => p.Dice != null);
+        }
     }
 }

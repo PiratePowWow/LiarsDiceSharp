@@ -31,7 +31,7 @@ namespace LiarsDiceSharp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GameContext>(options => options.UseSqlite(Configuration.GetConnectionString("LiarsDice")));
-            services.AddControllers();
+            // services.AddControllers();
             services.AddScoped<GameLogic>();
             services.AddSignalR()
                 .AddJsonProtocol();
@@ -49,19 +49,18 @@ namespace LiarsDiceSharp
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapHub<LobbyHub>("/liarsDice");
             });
 
             app.UseDefaultFiles();
             
             app.UseStaticFiles();
-
-            app.UseWebSockets();
+            //
+            // app.UseWebSockets();
         }
     }
 }

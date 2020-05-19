@@ -10,8 +10,8 @@ namespace LiarsDiceSharp.Models.Dtos
         public string Id { get; set; }
         public string Name { get; set; }
         public string RoomCode { get; set; }
-        public ICollection<Int32> Dice { get; set; }
-        public ICollection<Int16> Stake { get; set; }
+        public ICollection<int> Dice { get; set; }
+        public ICollection<short> Stake { get; set; }
         public int Score { get; set; }
         public int SeatNum { get; set; }
         
@@ -20,8 +20,8 @@ namespace LiarsDiceSharp.Models.Dtos
             Id = player.Id;
             Name = player.Name;
             RoomCode = player.GameState?.RoomCode;
-            Dice = player.Dice != null ? JsonSerializer.Deserialize<ICollection<Int32>>(player.Dice) : null;
-            Stake = player.Stake != null ? JsonSerializer.Deserialize<ICollection<Int16>>(player.Stake) : null;
+            Dice = player.Dice != null ? JsonSerializer.Deserialize<ICollection<int>>(player.Dice) : null;
+            Stake = player.Stake != null ? JsonSerializer.Deserialize<ICollection<short>>(player.Stake) : null;
             Score = player.Score;
             SeatNum = player.SeatNum;
         }
