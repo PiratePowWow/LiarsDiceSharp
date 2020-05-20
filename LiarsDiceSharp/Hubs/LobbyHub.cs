@@ -7,7 +7,6 @@ using LiarsDiceSharp.LogicEngines;
 using LiarsDiceSharp.Models.Contexts;
 using LiarsDiceSharp.Models.Dtos;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 
 namespace LiarsDiceSharp.Hubs
 {
@@ -18,15 +17,14 @@ namespace LiarsDiceSharp.Hubs
 
         public LobbyHub(GameContext gameContext, GameLogic gameLogic)
         {
-            this._gameContext = gameContext;
+            _gameContext = gameContext;
             _gameLogic = gameLogic;
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var connectionId = Context.ConnectionId;
-            var disconnectingPlayer = await _gameContext.Players.Where(p => p.Id == connectionId)
-                .Include(p => p.GameState).FirstAsync();
+            var disconnectingPlayer = await _gameContext.FindPlayerByIdIncludeGameState(connectionId);
             if (disconnectingPlayer != null)
             {
                 var gameState = disconnectingPlayer.GameState;
@@ -40,8 +38,7 @@ namespace LiarsDiceSharp.Hubs
                     await _gameLogic.ResetGameState(roomCode);
                     await _gameContext.SaveChangesAsync();
                     gameState = await _gameContext.GameStates.FindAsync(roomCode);
-                    var playerDtos = new PlayersDto(_gameContext.Players.Where(player => player.GameState == gameState)
-                        .OrderBy(player => player.SeatNum).ToList());
+                    var playerDtos = new PlayersDto(await _gameContext.FindPlayersByGameStateOrderBySeatNumAsc(gameState));
                     var playerListAndGameState = new Dictionary<string, object>
                     {
                         {"playerList", playerDtos}, {"gameState", new GameStateDto(gameState, _gameContext.Players)}
@@ -91,7 +88,7 @@ namespace LiarsDiceSharp.Hubs
         {
             var id = Context.ConnectionId;
             var playerJoiningGame =
-                await _gameContext.Players.Where(p => p.Id == id).Include(p => p.GameState).FirstAsync();
+                await _gameContext.FindPlayerByIdIncludeGameState(id);
             if (playerJoiningGame == null)
             {
                 await Clients.Caller.SendAsync("ErrorFromServer", "Your player Id could Not be found");
@@ -100,9 +97,7 @@ namespace LiarsDiceSharp.Hubs
             {
                 var gameState = playerJoiningGame.GameState;
                 var roomCode = gameState.RoomCode;
-                var playerDtos = new PlayersDto(await _gameContext.Players
-                    .Where(player => player.GameState == gameState)
-                    .OrderBy(player => player.SeatNum).ToListAsync());
+                var playerDtos = new PlayersDto(await _gameContext.FindPlayersByGameStateOrderBySeatNumAsc(gameState));
                 var playerListAndGameState = new Dictionary<string, object>
                 {
                     {"playerList", playerDtos},
@@ -120,7 +115,7 @@ namespace LiarsDiceSharp.Hubs
         {
             var id = Context.ConnectionId;
             var playerCallingBluff =
-                await _gameContext.Players.Include(p => p.GameState).Where(p => p.Id == id).FirstAsync();
+                await _gameContext.FindPlayerByIdIncludeGameState(id);
             if (playerCallingBluff == null)
             {
                 await Clients.Caller.SendAsync("ErrorFromServer", "Your player Id could Not be found");
@@ -163,10 +158,7 @@ namespace LiarsDiceSharp.Hubs
                 var gameState = playerRequestingReset.GameState;
                 var roomCode = gameState.RoomCode;
                 await _gameLogic.ResetGameState(roomCode);
-                var newGame = playerRequestingReset.GameState;
-                var playerDtos = new PlayersDto(await _gameContext.Players
-                    .Where(player => player.GameState == gameState)
-                    .OrderBy(player => player.SeatNum).ToListAsync());
+                var playerDtos = new PlayersDto(await _gameContext.FindPlayersByGameStateOrderBySeatNumAsc(gameState));
                 var playerListAndGameState = new Dictionary<string, object>
                 {
                     {"playerList", playerDtos},
@@ -185,7 +177,7 @@ namespace LiarsDiceSharp.Hubs
         {
             var id = Context.ConnectionId;
             var playerSettingStake =
-                await _gameContext.Players.Include(p => p.GameState).Where(p => p.Id == id).FirstAsync();
+                await _gameContext.FindPlayerByIdIncludeGameState(id);
             if (newStake != null && newStake.Count == 2)
             {
                 if (newStake.ElementAt(0) > 0 && newStake.ElementAt(1) > 0 && newStake.ElementAt(1) < 7 &&
@@ -211,9 +203,7 @@ namespace LiarsDiceSharp.Hubs
                             if (playerSettingStake.Dice == null)
                             {
                                 await _gameLogic.SetNextActivePlayer(roomCode);
-                                playerDtos = new PlayersDto(await _gameContext.Players
-                                    .Where(player => player.GameState == gameState).OrderBy(player => player.SeatNum)
-                                    .ToListAsync());
+                                playerDtos = new PlayersDto(await _gameContext.FindPlayersByGameStateOrderBySeatNumAsc(gameState));
                                 playerListAndGameState = new Dictionary<string, Object>();
                                 playerListAndGameState.Add("playerList", playerDtos);
                                 playerListAndGameState.Add("gameState",
@@ -244,9 +234,7 @@ namespace LiarsDiceSharp.Hubs
                             }
 
                             await _gameContext.SaveChangesAsync();
-                            playerDtos = new PlayersDto(await _gameContext.Players
-                                .Where(player => player.GameState == gameState).OrderBy(player => player.SeatNum)
-                                .ToListAsync());
+                            playerDtos = new PlayersDto(await _gameContext.FindPlayersByGameStateOrderBySeatNumAsc(gameState));
                             playerListAndGameState = new Dictionary<string, object>
                             {
                                 {"playerList", playerDtos},
@@ -267,8 +255,7 @@ namespace LiarsDiceSharp.Hubs
 
         public async Task RollDice()
         {
-            var playerRollingDice = await _gameContext.Players.Include(p => p.GameState)
-                .Where(p => p.Id == Context.ConnectionId).FirstAsync();
+            var playerRollingDice = await _gameContext.FindPlayerByIdIncludeGameState(Context.ConnectionId);
             if (playerRollingDice == null)
             {
                 await Clients.Caller.SendAsync("ErrorFromServer", "Your player Id could Not be found");
@@ -300,8 +287,7 @@ namespace LiarsDiceSharp.Hubs
                 }
 
                 await _gameContext.SaveChangesAsync();
-                var playerDtos = new PlayersDto(await _gameContext.Players
-                    .Where(player => player.GameState == gameState).OrderBy(player => player.SeatNum).ToListAsync());
+                var playerDtos = new PlayersDto(await _gameContext.FindPlayersByGameStateOrderBySeatNumAsc(gameState));
                 var playerListAndGameState = new Dictionary<string, object>
                 {
                     {"playerList", playerDtos},
