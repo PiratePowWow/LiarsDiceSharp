@@ -66,29 +66,28 @@ h1{
   width:100%;
 }
 .bigSection{
-    /*margin-top: 220px;*/
+}
+.roomCode{
+    font-size: 1.5rem;
 }
 .inactive{
   display:none !important;
 }
 
 .title{
-  margin: 0 auto;
-  margin-top: -7%;
-  margin-left: 52%;
-  position:absolute;
+    position: fixed;
+    top: 9%;
+    right: 15%;
 }
 .titleBig{
-  margin: 0 auto;
-  margin-top: 141px;
-  margin-left: 970px;
-  position: absolute;
+    position: fixed;
+    top: 9%;
+    right: 15%;
 }
 .titleLoser{
-  margin: 0 auto;
-  margin-top: 2%;
-  margin-left: 70%;
-  position: relative;
+    position: fixed;
+    top: 9%;
+    right: 15%;
 }
 ul , li{
   list-style-type: none;
@@ -176,7 +175,7 @@ input.placeholder {
 }
 .diceSubmit{
   z-index: 2;
-  margin-top: -261px;
+  margin-top: -10%;
   position: relative;
 }
 .diceSubmit input{
@@ -186,11 +185,7 @@ input.placeholder {
   border-radius: 5px;
   margin-bottom: 6px;
 }
-/*.gameInput{
-  margin-left: 60%;
-  margin-top: -150px;
-  background-color: white;
-}*/
+
 .submitDice {
     position: relative;
     z-index: 2;
@@ -252,7 +247,7 @@ input.placeholder {
   font-size: 3rem;
   width: 37%;
   margin-left: 20%;
-  margin-top: 2%;
+  margin-top: 10%;
   position: relative;
   text-align: center;
 }
@@ -394,7 +389,6 @@ input.placeholder {
 .containerA , .containerB{
   margin-bottom: -20px;
 }
-
 
 #cube , #cube2 , #cube3 , #cube4 , #cube5 {
   position:relative;

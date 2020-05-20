@@ -27,17 +27,14 @@ namespace LiarsDiceSharp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GameContext>(options => options.UseSqlite(Configuration.GetConnectionString("LiarsDice")));
-            // services.AddControllers();
             services.AddScoped<GameLogic>();
             services.AddSignalR()
                 .AddJsonProtocol();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -48,9 +45,7 @@ namespace LiarsDiceSharp
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            // app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<LobbyHub>("/liarsDice");
@@ -59,8 +54,6 @@ namespace LiarsDiceSharp
             app.UseDefaultFiles();
             
             app.UseStaticFiles();
-            //
-            // app.UseWebSockets();
         }
     }
 }

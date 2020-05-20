@@ -85,6 +85,7 @@ var liarsDice = {
 
       console.log("you clicked start");
       $('.bigSection').removeClass('inactive');
+      $('#bigSectionRoomCode').html("<p>Room Code: " + roomCode + "</p>")
       // $('.nameContent').html(names);
       $('.lobby').addClass('inactive');
       $('.title').css('margin-top',"1%");
@@ -264,6 +265,7 @@ function youLost(player){
     function playerList(playerListAndGameState) {
       var content = '';
       var code = '';
+      roomCode = playerListAndGameState.gameState.roomCode;
       console.log("PLAYER LIST", playerListAndGameState);
       code += "<p>Send friends your Room Code: "
             + playerListAndGameState.gameState.roomCode

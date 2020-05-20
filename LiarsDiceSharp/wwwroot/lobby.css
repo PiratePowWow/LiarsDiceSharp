@@ -1,19 +1,16 @@
 
 .lobby {
     display: block;
-    width:50%;
-    margin-left: 24%;
-    margin-top: 10%;
+    width:60%;
+    margin: 10% auto auto;
 }
 
 .titleLobby {
-    margin: 0 auto;
-    margin-top: -86px;
-    margin-left: 47%;
-    position: absolute;
+    position: fixed;
+    top: 9%;
+    right: 15%;
 }
 
-/*this magical box was made by following a tutorial found here... http://learn.shayhowe.com/advanced-html-css/transitions-animations/*/
 .box {
     margin-top: -20%;
     color: black;
@@ -21,24 +18,16 @@
     height: 10rem;
     margin-left: 40%;
     background-color: rgba(255, 180, 0, 0.5);
-    /*opacity: .2;*/
     border-radius: 50%;
     transition-property: background, border-radius;
     transition-duration: 1s;
     transition-timing-function: linear;
     -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
     transition: width 2s, height 2s, background-color 2s, transform 2s;
-    /*cool, but not for this*/
-    /*transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);*/
+
 }
 
-/*.box{
-  background-image: url("./moon.jpg");
-  background-repeat:no-repeat;
-  background-size: 15rem 15rem;
-  background-position: center center;
-  opacity: 1;
-}*/
+
 .layer {
     width: 11.5rem;
     height: 11.5rem;
@@ -64,7 +53,6 @@
 
 .box:hover {
     background: maroon;
-    /*opacity: .2;*/
     border-radius: 50%;
     width: 12rem;
     height: 12rem;
@@ -74,17 +62,10 @@
     box-shadow: none;
 }
 
-/*.clickStart{
-  margin-top: 70px;
-  position: relative;
-}*/
-/*.lobby h1{
-  margin-left: -35%;
-}*/
 .whenReady h3 {
     width: 100%;
     margin: 0 auto;
-    margin-left: -33%;
+    margin-left: -20%;
     margin-bottom: 10px;
     font-size: 2rem;
     margin-top: -10px;
@@ -101,7 +82,7 @@
 .whenReady h1 {
     width: 100%;
     margin: 0 auto;
-    margin-left: -18%;
+    margin-left: -20%;
     margin-top: 23px;
 }
 
